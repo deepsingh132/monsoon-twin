@@ -7,6 +7,7 @@ Used for hosting (see the Dockerfile). The twin server itself (serve.py) stays u
 """
 import argparse
 import functools
+import gzip
 import http.server
 import urllib.error
 import urllib.request
@@ -34,9 +35,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             code, data = e.code, e.read()
         except OSError:
             self.send_error(503, "The twin is starting. Try again in a few seconds."); return
+        encoded = "gzip" in (self.headers.get("Accept-Encoding") or "").lower() and len(data) >= 512
+        if encoded:                                           # a 10-day rollout is 1.2 MB of JSON; phones get it compressed
+            data = gzip.compress(data, compresslevel=5, mtime=0)
         self.send_response(code)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(data)))
+        if encoded:
+            self.send_header("Content-Encoding", "gzip")
+            self.send_header("Vary", "Accept-Encoding")
         self.end_headers()
         self.wfile.write(data)
 

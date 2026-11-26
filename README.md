@@ -148,6 +148,8 @@ The small map page in `dashboard/` also uses the server. To use it, start the se
 
 **Note:** The demo works without an internet connection. All libraries and maps are in `demo/`.
 
+On a phone, the page scrolls, the maps stack, and the numbers panel sits below them. A vertical swipe scrolls the page; the +/− buttons zoom.
+
 ### Data and licences of the demo
 
 - [Leaflet](https://leafletjs.com) (BSD-2) and [leaflet-velocity](https://github.com/onaci/leaflet-velocity) (CSIRO BSD/MIT-style) are in `demo/vendor/`, with their licences.
