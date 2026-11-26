@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Monsoon Twin — Yugaantar DevForge Track 1 brief</title>
+<meta name="author" content="CHACHA">
+<meta name="description" content="Two-page project brief for Yugaantar DevForge 2026, Track 1: Multiverse of Monsoon.">
+<meta name="subject" content="Climate Digital Twin of India: model design, drift and blur, failure modes, visualisation and flood-risk impact.">
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  :root {
+    --ink: #1d1d1f; --muted: #6e6e73; --line: #e5e5ea; --soft: #f5f5f7;
+    --accent: #0a66d6; --good: #0b7a3e; --bad: #b3261e;
+  }
+  html, body { margin: 0; padding: 0; }
+  body { color: var(--ink); font: 7.8pt/1.33 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  .page { width: 210mm; height: 297mm; overflow: hidden; position: relative; page-break-after: always; background: #fff; }
+  .page:last-child { page-break-after: auto; }
+  a { color: var(--accent); text-decoration: none; }
+  p { margin: 0 0 2.2mm; }
+  ul, ol { margin: 0 0 2mm 4.2mm; padding: 0; }
+  li { margin: 0 0 1.15mm; }
+  .small { font-size: 7.2pt; line-height: 1.32; color: var(--muted); }
+  .mono { font-family: "SF Mono", "DejaVu Sans Mono", "Liberation Mono", monospace; font-size: 6.9pt; }
+
+  /* masthead: white, type-led, one hairline */
+  .masthead { background: #fff; color: var(--ink); padding: 5.6mm 10mm 3.8mm; border-bottom: .25mm solid var(--line); }
+  .masthead .kicker { font-size: 7pt; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.8mm; }
+  .masthead h1 { font-size: 22.5pt; line-height: 1.02; letter-spacing: -.045em; margin: 0 0 1.8mm; font-weight: 650; }
+  .masthead .tagline { font-size: 9.3pt; line-height: 1.35; color: var(--muted); margin: 0 0 3mm; }
+  .meta { display: flex; flex-wrap: wrap; gap: 1.5mm 4mm; align-items: center; font-size: 6.8pt; color: var(--muted); }
+  .meta a { color: var(--ink); }
+  .pill { background: var(--soft); color: var(--ink); border: .25mm solid var(--line); border-radius: 99px; padding: 1mm 2.8mm; font-weight: 500; letter-spacing: .02em; }
+  .masthead.slim { padding: 5.6mm 10mm 3.8mm; }
+  .masthead.slim h1 { font-size: 17pt; margin: 0; }
+  .masthead.slim .tagline { font-size: 7.8pt; margin: 1.2mm 0 0; }
+  .pageno { position: absolute; right: 10mm; top: 6mm; font-size: 6.8pt; color: var(--muted); letter-spacing: .08em; }
+
+  /* page 1 */
+  .body1 { padding: 3.8mm 10mm 0; }
+  .grid1 { display: grid; grid-template-columns: 1.62fr 1fr; gap: 7mm; }
+  h2 { font-size: 8.1pt; text-transform: uppercase; letter-spacing: .09em; color: var(--ink); margin: 0 0 1.4mm; padding-bottom: .7mm; border-bottom: .25mm solid var(--line); font-weight: 600; }
+  h2 .num { color: var(--muted); margin-right: 1.3mm; font-weight: 500; }
+  section { margin-bottom: 2.2mm; }
+  .lead { font-size: 8.3pt; line-height: 1.4; }
+  .lead strong { color: var(--ink); }
+
+  .flow { display: flex; align-items: stretch; gap: 1.6mm; margin: 1.2mm 0 1.4mm; }
+  .flow .box { flex: 1; background: var(--soft); border: 0; border-radius: 3mm; padding: 1.5mm 1.4mm 1.6mm; font-size: 6.1pt; line-height: 1.22; text-align: center; color: var(--muted); }
+  .flow .box b { display: block; color: var(--ink); font-size: 6.3pt; font-weight: 600; margin-bottom: .4mm; }
+  .flow .arrow { align-self: center; color: var(--muted); font-size: 8pt; font-weight: 400; }
+
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 0 5mm; }
+  .tight li { margin-bottom: .7mm; }
+  .k { color: var(--ink); font-weight: 600; }
+  .accent { color: var(--accent); font-weight: 600; }
+
+  .card { background: #fff; border: .25mm solid var(--line); border-radius: 3.5mm; padding: 2.2mm 2.5mm; margin-bottom: 2.2mm; }
+  .card.soft { background: var(--soft); border-color: transparent; }
+  .card h3 { margin: 0 0 1.7mm; font-size: 7.9pt; text-transform: uppercase; letter-spacing: .07em; color: var(--ink); font-weight: 600; }
+  .metricgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; }
+  .metric { border-top: .25mm solid var(--line); padding-top: 1.2mm; }
+  .metric .v { font-size: 13pt; line-height: 1.05; font-weight: 600; letter-spacing: -.03em; color: var(--ink); }
+  .metric .l { font-size: 6.3pt; color: var(--muted); line-height: 1.24; margin-top: .4mm; }
+  table { width: 100%; border-collapse: collapse; font-size: 7pt; }
+  th, td { text-align: left; padding: .9mm 1mm; border-bottom: .2mm solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; font-size: 6.2pt; text-transform: uppercase; letter-spacing: .04em; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.total td { font-weight: 600; color: var(--ink); }
+  .good { color: var(--good); font-weight: 600; }
+  .warn { color: var(--muted); font-weight: 600; }
+  .bad { color: var(--bad); font-weight: 600; }
+  .run { background: var(--soft); border-color: transparent; color: var(--ink); }
+  .run h3 { color: var(--ink); }
+  .run .cmd { display: block; background: #fff; border: .2mm solid var(--line); padding: 1.1mm 1.8mm; border-radius: 2mm; margin: .8mm 0; color: var(--ink); font-size: 6.3pt; }
+  .run a { color: var(--accent); }
+  .note { font-size: 6.5pt; color: var(--muted); line-height: 1.3; margin: 1.2mm 0 0; }
+  .pagefoot { position: absolute; left: 10mm; right: 10mm; bottom: 2.2mm; border-top: .25mm solid var(--line); padding-top: 1.2mm; font-size: 6.4pt; color: var(--muted); display: flex; justify-content: space-between; }
+
+  /* page 2 */
+  .body2 { padding: 3.6mm 10mm 0; }
+  .hero { position: relative; border-radius: 4mm; overflow: hidden; border: .25mm solid var(--line); height: 80mm; background: var(--soft); }
+  .hero img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block; }
+  .hero .label { position: absolute; left: 3mm; top: 3mm; background: rgba(255,255,255,.9); color: var(--ink); border: .2mm solid var(--line); border-radius: 99px; padding: 1mm 2.6mm; font-size: 6.5pt; letter-spacing: .04em; }
+  .hero .live { position: absolute; right: 3mm; top: 3mm; background: var(--accent); color: #fff; border-radius: 99px; padding: 1mm 2.6mm; font-size: 6.5pt; font-weight: 600; letter-spacing: .03em; }
+  .caption { font-size: 6.5pt; color: var(--muted); line-height: 1.28; margin: 1.2mm 0 2.8mm; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4.6mm; }
+  .grid2 section { margin: 0; }
+  .grid2 h2 { font-size: 7.5pt; }
+  .grid2 p, .grid2 li { font-size: 7.25pt; line-height: 1.33; }
+  .grid2 ul, .grid2 ol { margin-left: 3.3mm; }
+  .shot { border: .2mm solid var(--line); border-radius: 3mm; overflow: hidden; margin: 1.2mm 0 .8mm; background: #fff; }
+  .shot img { width: 100%; display: block; }
+  .phone { width: 40mm; margin: .8mm auto 0; border: .45mm solid var(--ink); border-radius: 4mm; overflow: hidden; }
+  .phone img { width: 100%; display: block; }
+  .stats3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3mm; margin: 1.4mm 0 1.4mm; }
+  .stats3 .s { background: var(--soft); border-radius: 3mm; padding: 1.3mm 1.3mm; }
+  .stats3 .v { font-size: 12pt; font-weight: 600; color: var(--ink); letter-spacing: -.03em; line-height: 1; }
+  .stats3 .l { font-size: 5.9pt; color: var(--muted); line-height: 1.2; margin-top: .5mm; }
+  .evidence { font-size: 7pt; }
+  .evidence li { margin-bottom: .8mm; }
+  .links { font-size: 6.5pt; line-height: 1.4; }
+  .links b { color: var(--ink); }
+  .judgeband { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 4.2mm; margin-top: 2.8mm;
+               padding: 2mm 2.6mm 2.2mm; background: var(--soft); border: 0; border-radius: 3.5mm; }
+  .judgeband h3 { margin: 0 0 1mm; font-size: 7.2pt; text-transform: uppercase; letter-spacing: .07em; color: var(--ink); font-weight: 600; }
+  .judgeband p, .judgeband li { font-size: 6.6pt; line-height: 1.32; margin: 0; }
+  .judgeband ol { margin: 0 0 0 3.2mm; }
+  .judgeband li { margin-bottom: .5mm; }
+</style>
+</head>
+<body>
+
+<!-- ============================ PAGE 1 ============================ -->
+<div class="page">
+  <header class="masthead">
+    <div class="kicker">Yugaantar DevForge 2026 · Track 1</div>
+    <h1>Monsoon Twin</h1>
+    <p class="tagline">A fast, physics-aware Climate Digital Twin of India — and a second universe for every shock.</p>
+    <div class="meta">
+      <span class="pill">Multiverse of Monsoon</span>
+      <span>Team CHACHA</span>
+      <span>Code &amp; weights: <a href="https://github.com/choudharyjayesh668/monsoon-twin">github.com/choudharyjayesh668/monsoon-twin</a></span>
+      <span>Live demo: <a href="https://monsoon-twin-production.up.railway.app">monsoon-twin-production.up.railway.app</a></span>
+    </div>
+  </header>
+
+  <div class="body1">
+    <div class="grid1">
+      <main>
+        <section>
+          <h2><span class="num">01</span>USP</h2>
+          <p class="lead">Turn the last <strong>three days</strong> of India's atmosphere into a <strong>10-day, branching forecast</strong> in about <strong>0.1 s</strong> on four CPU cores — no GPU, no network, no external weather service. A shock added to the last day becomes a second universe: the dashboard shows where it starts, how it spreads, and what it changes.</p>
+          <ul class="tight">
+            <li><span class="k">Fast enough to branch:</span> 10-day rollout in 0.09–0.14 s; 3.1 s cold start; one container serves the twin and the demo.</li>
+            <li><span class="k">Causal by construction:</span> 3×3 convolutions only; a local shock cannot teleport across India in one step.</li>
+            <li><span class="k">Judge-ready:</span> training code, weights, dashboard and a 2-page brief in one offline repo; validator and repo scan pass.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2><span class="num">02</span>System architecture</h2>
+          <div class="flow">
+            <div class="box"><b>Inputs</b>3-day state<br>6 fields · 32×36<br>season + shock</div>
+            <div class="arrow">→</div>
+            <div class="box"><b>Encoder</b>anomaly vs 366-day<br>climatology,<br>per-channel scale</div>
+            <div class="arrow">→</div>
+            <div class="box"><b>Core</b>5 residual<br>3×3 blocks<br>128 wide</div>
+            <div class="arrow">→</div>
+            <div class="box"><b>Update</b>next-day change<br>+ last state<br>+ guards</div>
+            <div class="arrow">→</div>
+            <div class="box"><b>Rollout</b>10 autoregressive<br>steps → JSON<br>physical units</div>
+          </div>
+          <p class="small">One step = one day. The state is the anomaly from a 366-day climatology, divided by a per-channel scale. The network predicts the <b>change</b> of that anomaly; the next state is the last state plus that change, re-anchored to climatology. Rain is clamped at zero inside the loop and at the wire. The server is separate from the dashboard and only imports <span class="mono">twin.py</span>.</p>
+        </section>
+
+        <section>
+          <h2><span class="num">03</span>Model design</h2>
+          <ul class="tight">
+            <li><span class="k">State:</span> 6 physical fields — t2m (K), tp (mm/day), u10/v10 (m/s), msl (Pa), tcwv (kg/m²) — on 32×36 cells, 3 days, oldest first.</li>
+            <li><span class="k">Network:</span> 773k weights; 3×3 stem, five residual 3×3 blocks, 1×1 head. No pooling, attention, downsampling or map-wide normalisation. Reach: <b>6 cells/day</b>.</li>
+            <li><span class="k">Training:</span> score-matched loss — half pooled squared error scaled by the better reference, half per-window RMSE over its own better reference. 5,000 one-step + 3,000 four-step iterations; MLX bfloat16, ~18 min.</li>
+            <li><span class="k">Split:</span> train 2005–17, tune 2018–19, report 2020–21; ship the same recipe on 2005–21.</li>
+            <li><span class="k">Heavy rain:</span> emitted rain lifted above 10 mm/day where expected rain passes a per-lead cutoff (8.5 → 6.25 mm). Emitted only; fed-back state is never lifted.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2><span class="num">04</span>How drift and blur are prevented</h2>
+          <div class="twocol">
+            <ul class="tight">
+              <li><span class="k">Drift:</span> predict the change of the anomaly, add it to the last state, then re-anchor to climatology. Rain ≥ 0; output guards (rain ≥ 0, −40…+60 °C, finite). <b>100% valid for 14 steps.</b></li>
+              <li><span class="k">Determinism:</span> no dropout, no sampling. A zero shock is <b>bit-identical</b> to no shock.</li>
+            </ul>
+            <ul class="tight">
+              <li><span class="k">Blur:</span> local residual updates, no pooling/attention, no ensemble mean. Day-8 spatial variance <b>0.73–1.01×</b> the truth across all six fields; <b>10/10</b> no-blur points.</li>
+              <li><span class="k">Training signal:</span> four-day unrolled rollouts teach the twin how far to relax toward climatology from its own output.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <h2><span class="num">05</span>Failure modes we know about</h2>
+          <ol class="tight">
+            <li><b>Day 8 is close to climatology.</b> Holdout skill is −0.112; the twin relaxes well but does not predict new weather at that range.</li>
+            <li><b>Extreme rain is under-dispersed.</b> Peaks are smoothed; the 10 mm/day lift trades misses for false alarms. The most extreme 2020–21 heatwave and winter windows can lose to the better baseline.</li>
+            <li><b>Shock limits.</b> Weaker Arabian wind fades before spreading in ~46% of windows; +15% Bay moisture can push single cells past 5σ in ~26%.</li>
+            <li><b>Leap years.</b> No year is sent; from March the climatology slot is one day late (~−0.004 skill at days 4–8).</li>
+            <li><b>Domain edge.</b> Inflow outside 32×36 is invisible; edge forecasts degrade first.</li>
+            <li><b>Distribution shift.</b> Hidden 2023–24 is outside 2005–21; demo windows are in-sample.</li>
+          </ol>
+        </section>
+      </main>
+
+      <aside>
+        <div class="card">
+          <h3>At a glance</h3>
+          <div class="metricgrid">
+            <div class="metric"><div class="v">0.09–0.14 s</div><div class="l">per 10-day request<br>on 4 CPU cores</div></div>
+            <div class="metric"><div class="v">3.1 s</div><div class="l">cold start<br>before /health</div></div>
+            <div class="metric"><div class="v">773k</div><div class="l">parameters<br>13.2 MB checkpoint</div></div>
+            <div class="metric"><div class="v">15/15</div><div class="l">repo-scan points<br>0 flags</div></div>
+            <div class="metric"><div class="v">100%</div><div class="l">valid 14 steps<br>null shock unchanged</div></div>
+            <div class="metric"><div class="v">0</div><div class="l">external weather APIs<br>or network calls</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Holdout results · 2020–21</h3>
+          <table>
+            <tr><th>Holdout 2020–21</th><th class="n">Twin</th></tr>
+            <tr><td>Forecast points A / B / C (of 45)</td><td class="n"><b>35.4 / 20.7 / 40.8</b></td></tr>
+            <tr><td>Skill at days 1 / 4 / 8 (B)</td><td class="n"><b>+0.250 / +0.004 / −0.112</b></td></tr>
+            <tr><td>Day 4 vs persistence (gate)</td><td class="n good">+0.225</td></tr>
+            <tr><td>No-blur / shock points</td><td class="n"><b>10.0 / 10 · 13.4 / 15</b></td></tr>
+            <tr class="total"><td>14-step valid · null shock</td><td class="n">100% · 100%</td></tr>
+          </table>
+          <p class="note">Damped persistence: 17.5 / 0.0 / 9.1 points; day-4 +0.202. Development model trained 2005–17, tuned 2018–19; shipped weights use the same recipe retrained 2005–21. Demo windows are in-sample and not used for these claims.</p>
+        </div>
+
+        <div class="card">
+          <h3>Shock pass rates · 61 windows</h3>
+          <table>
+            <tr><th>Shock</th><th class="n">Day 1</th><th class="n">Spread</th><th class="n">≤ 5σ</th></tr>
+            <tr><td>Warm Bay of Bengal</td><td class="n good">100%</td><td class="n">98%</td><td class="n">74%</td></tr>
+            <tr><td>Weaker Arabian wind</td><td class="n good">100%</td><td class="n">54%</td><td class="n">90%</td></tr>
+            <tr><td>+2.5 °C Arabian Sea</td><td class="n good">100%</td><td class="n">77%</td><td class="n">92%</td></tr>
+          </table>
+        </div>
+
+        <div class="card run">
+          <h3>Run it offline</h3>
+          <span class="mono cmd">python serve.py --port 8000</span>
+          <span class="mono cmd">python -m monsoon_r1.schema_validator \<br>&nbsp;&nbsp;http://localhost:8000</span>
+          <p class="small">CPU PyTorch, 4 cores, 6 GB, read-only repo except <span class="mono">/tmp</span>. Weights and static fields are bundled; <span class="mono">serve.py</span> imports only <span class="mono">twin.py</span>. The dashboard in <span class="mono">demo/</span> calls the live <span class="mono">/simulate</span>; Docker/Railway serve both.</p>
+        </div>
+
+        <div class="card soft">
+          <h3>Submission compliance</h3>
+          <p class="small" style="margin:0">Public repo · training code and <span class="mono">serve.py</span> at the root · 13.2 MB weights inside the repo · dashboard separate from the server · no weather APIs, hardcoded dates or weather archives · README with train/run steps · this 2-page PDF.</p>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+
+  <footer class="pagefoot">
+    <span>Page 1 of 2 · Model design · Drift &amp; blur · Failure modes</span>
+    <span>Monsoon Twin · Yugaantar DevForge 2026 · Track 1</span>
+  </footer>
+</div>
+
+<!-- ============================ PAGE 2 ============================ -->
+<div class="page">
+  <header class="masthead slim">
+    <div class="kicker">Track 1 · Visualisation &amp; impact</div>
+    <h1>See the forecast. Branch the world. Act on the risk.</h1>
+    <p class="tagline">A live map and a flood-risk screening module, both driven by the twin's own <span class="mono" style="font-size:7pt">/simulate</span> — nothing is pre-rendered.</p>
+    <div class="pageno">PAGE 2 / 2</div>
+  </header>
+
+  <div class="body2">
+    <div class="hero">
+      <img src="img/map-hero.jpg" alt="Live Monsoon Twin map: real weather and twin forecast side by side">
+      <div class="label">LIVE · REAL vs TWIN · 10 DAYS</div>
+      <div class="live">kit-exact skill +0.29 · day 1</div>
+    </div>
+    <p class="caption"><b>Live map, desktop.</b> Real weather (left) and the twin forecast (right) on one colour scale, with the twin's day-1 skill, rain skill, mean error and the better simple forecast. Every field on every day comes from a fresh <span class="mono">/simulate</span> response; the 10-day timeline is scrubbable. Screenshot from the shipped demo.</p>
+
+    <div class="grid2">
+      <section>
+        <h2>01 · Visualisation</h2>
+        <p><b>A live, inspectable twin — not a video.</b> Six fields, ten days, real vs twin, and the ability to branch a shock on the spot.</p>
+        <ul>
+          <li><b>Compare / Forecast / Shock.</b> One colour scale; wind particles; hover or tap for the value at any cell.</li>
+          <li><b>Kit-exact skill.</b> Per-day RMSE skill against the better of persistence and climatology, rain skill, heavy-rain hit rate, peak and largest-error pins.</li>
+          <li><b>Shock view.</b> Warmer Bay of Bengal, weaker Arabian Sea wind, or +2.5 °C Arabian Sea; the dashed box marks the forcing, and “with minus without” shows the response.</li>
+          <li><b>Mobile-ready.</b> Maps stack, legend above, numbers below; a vertical swipe scrolls the page, +/− zooms; tested down to 320 px.</li>
+        </ul>
+        <div class="phone"><img src="img/mobile.jpg" alt="Monsoon Twin on a phone"></div>
+        <p class="caption" style="text-align:center">Phone layout · 390×664 · live</p>
+      </section>
+
+      <section>
+        <h2>02 · Flood-risk impact</h2>
+        <p><b>From rain to a screening decision.</b> The flood module turns the twin's rain into three land alert levels — watch, warning, severe — and compares them with alerts from the real rain.</p>
+        <div class="shot"><img src="img/flood-crop.jpg" alt="Flood-risk page: real alerts and twin alerts over India"></div>
+        <p class="caption"><b>Flood-risk page.</b> Real vs twin alert area for the Uttarakhand, June 2013 window. The page reports hit rate, false alarms and the “repeat yesterday” baseline.</p>
+        <div class="stats3">
+          <div class="s"><div class="v">84%</div><div class="l">of real alert area found</div></div>
+          <div class="s"><div class="v">7%</div><div class="l">false alarms</div></div>
+          <div class="s"><div class="v">+6</div><div class="l">points vs repeat yesterday</div></div>
+        </div>
+        <p><b>Who uses it.</b> District and relief teams triage which districts to inspect; agriculture advisors flag wet spells; planners branch a warmer Bay or a weaker monsoon and watch the alert area move. It is a <b>screening demo</b>, not an operational warning or evacuation system.</p>
+      </section>
+
+      <section>
+        <h2>03 · Evidence &amp; limits</h2>
+        <ul class="evidence">
+          <li><b>Validator:</b> all checks passed on local, Docker and Railway deployments.</li>
+          <li><b>Repo scan:</b> 15/15, 0 flags; training code and weights inside the repo.</li>
+          <li><b>Offline:</b> CPU only, 4 cores, 6 GB, no external APIs; dashboard separate from the server.</li>
+          <li><b>Stability:</b> 100% valid for 14 steps; null shock bit-identical.</li>
+        </ul>
+        <h2 style="margin-top:2.8mm">Honest limits</h2>
+        <ul class="evidence">
+          <li><b>1° daily grid.</b> Local extremes are not resolvable; exact rain-peak location is uncertain.</li>
+          <li><b>Day 8 ≈ climatology.</b> Extreme rain peaks are underpredicted and heavy-rain false alarms grow; event-window variance is the main scoring risk.</li>
+          <li><b>In-sample demo.</b> The demo windows are 2020–21, seen during final training; hidden 2023–24 is out-of-sample.</li>
+          <li><b>Flood alerts</b> are a screening aid, not evacuation guidance.</li>
+        </ul>
+        <div class="card soft" style="margin-top:2.4mm">
+          <h3>Reproduce</h3>
+          <p class="mono" style="margin:0 0 .8mm">python serve.py --port 8000</p>
+          <p class="mono" style="margin:0 0 1.2mm">python -m monsoon_r1.schema_validator \<br>&nbsp;&nbsp;http://localhost:8000</p>
+          <p class="small" style="margin:0">Train: <span class="mono">python train.py --years 2005-2021 --rain-cut-from /tmp/dev.pt</span> (Apple GPU, MLX). The server is CPU PyTorch; the sandbox needs no GPU.</p>
+          <p class="links" style="margin:1mm 0 0"><b>Code:</b> <a href="https://github.com/choudharyjayesh668/monsoon-twin">github.com/choudharyjayesh668/monsoon-twin</a><br><b>Live:</b> <a href="https://monsoon-twin-production.up.railway.app">monsoon-twin-production.up.railway.app</a></p>
+        </div>
+      </section>
+    </div>
+
+    <div class="judgeband">
+      <div>
+        <h3>60-second judge path</h3>
+        <ol>
+          <li>Open the live demo and wait for “Live from the twin”.</li>
+          <li>Pick a shock; step through all 10 days; switch to “with minus without”.</li>
+          <li>Open <b>Flood risk</b> → <b>Past floods: scores</b>; compare hits and false alarms with “repeat yesterday”.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Universal submission</h3>
+        <p>Public repo · training code and <span class="mono">serve.py</span> at the root · weights in the repo · dashboard separate · README · this 2-page PDF.</p>
+      </div>
+      <div>
+        <h3>Scope &amp; honesty</h3>
+        <p>Stage 1 benchmark plus a Stage 2 demo. Not an operational warning system: 1° daily grid, extreme-rain uncertainty, hidden 2023–24 is out-of-sample.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="pagefoot">
+    <span>Page 2 of 2 · Visualisation · Flood-risk impact · Evidence</span>
+    <span>2-page brief · model page 1 · impact page 2</span>
+  </footer>
+</div>
+
+</body>
+</html>
