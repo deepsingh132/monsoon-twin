@@ -39,8 +39,11 @@ const COS_SUM = COS.reduce((a, b) => a + b, 0) * NLON;
 const state = { base: null, shocked: null, view: "compare", t: 0, playing: false, grids: [], stats: [], req: 0 };
 
 // ---- two maps that move together: the twin (left, or the only map) and the real weather (right) -----------
+const narrowScreen = () => matchMedia("(max-width: 720px), (max-height: 520px)").matches;
 function makeMap(id) {
-  const map = L.map(id, { zoomSnap: 0.25, minZoom: 3, maxZoom: 8, zoomControl: false, attributionControl: false });
+  const map = L.map(id, { zoomSnap: 0.25, minZoom: 3, maxZoom: 8, zoomControl: false, attributionControl: false,
+                          dragging: !narrowScreen() });           // on a phone, a swipe scrolls the page
+
   map.fitBounds(BOUNDS, { padding: [12, 12] });                     // a view first, then the layers
   for (const [name, z] of [["field", 350], ["wind", 420], ["lines", 450]]) {
     map.createPane(name).style.zIndex = z; map.getPane(name).style.pointerEvents = "none";
@@ -72,8 +75,11 @@ function layout() {
   P.forEach(p => p.map.invalidateSize());
   PANE_TITLE[state.view].forEach((t, n) => { $("title" + n).textContent = t; });
 }
-function fit() {                                                    // all of the grid, above the numbers panel
-  P[0].map.fitBounds(BOUNDS, { paddingTopLeft: [12, 48], paddingBottomRight: [12, $("dock").offsetHeight + 30] });
+function fit() {                                                    // all of the grid; clear the numbers panel on desktop
+  const narrow = narrowScreen();
+  P[0].map.fitBounds(BOUNDS, narrow
+    ? { paddingTopLeft: [12, 12], paddingBottomRight: [12, 12] }      // the legend is a strip above the maps
+    : { paddingTopLeft: [12, 48], paddingBottomRight: [12, $("dock").offsetHeight + 30] });
 }
 
 // ---- field images in Web Mercator rows, so every cell sits at its true latitude --------------------------
@@ -400,13 +406,13 @@ async function simulate(w, perturbation) {
 }
 async function run() {
   const req = ++state.req, w = W(), name = $("shock").value;
-  $("status").textContent = "The twin calculates 10 days…";
+  $("status").className = "status"; $("status").textContent = "The twin calculates 10 days…";
   try {
     const base = await simulate(w, null);
     const shocked = name === "none" ? null : await simulate(w, shockDelta(name, w.init_states[2]));
     if (req !== state.req) return;                                  // a newer request started meanwhile
     Object.assign(state, { base, shocked });
-    $("status").textContent = `Live from the twin · ${base.inference_ms.toFixed(0)} ms`;
+    $("status").className = "status ok"; $("status").textContent = `Live from the twin · ${base.inference_ms.toFixed(0)} ms`;
     P.forEach(p => {
       if (name === "none") p.box.remove();
       else { const [a0, a1, o0, o1] = BOXES[name]; p.box.setBounds([[a0, o0], [a1, o1]]).addTo(p.map); }
@@ -415,6 +421,7 @@ async function run() {
     setView(name !== "none" ? "shock" : state.view === "shock" ? "compare" : state.view, true);
   } catch (e) {
     console.error(e);
+    $("status").className = "status err";
     $("status").textContent = `Cannot reach the twin (${e.message}). Start it: python serve.py --port 8000`;
   }
 }
@@ -486,5 +493,9 @@ P.forEach(p => {
   });
   p.map.on("mouseout", () => { tip.hidden = true; highlight(null); });
 });
-window.addEventListener("resize", () => { P.forEach(p => p.map.invalidateSize()); fit(); });
+window.addEventListener("resize", () => {
+  const narrow = narrowScreen();
+  P.forEach(p => { narrow ? p.map.dragging.disable() : p.map.dragging.enable(); p.map.invalidateSize(); });
+  fit();
+});
 run();

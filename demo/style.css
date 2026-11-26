@@ -135,12 +135,55 @@ th { font-weight: 500; color: var(--muted); font-size: 13px; }
 .note { color: var(--muted); font-size: 14px; max-width: 900px; }
 
 @media (max-width: 1100px) { .dock { grid-template-columns: 1fr; gap: 12px; } .days { border-left: 0; padding-left: 0; } }
-@media (max-width: 720px) {
+/* Phones (and short landscape screens): the page scrolls, each map gets a usable height,
+   and the numbers sit below the maps instead of over them. */
+@media (max-width: 720px), (max-height: 520px) {
+  body.app { height: auto; min-height: 100dvh; overflow: auto; }
   .page { padding: 32px 16px 48px; } .page h1 { font-size: 34px; }
-  .top { padding: 0 12px; } .top nav a { padding: 8px 10px; font-size: 14px; }
-  .toolbar { padding: 8px 12px; gap: 8px 12px; } #win, #shock, #field { width: 100%; } .toolbar label { flex: 1 1 100%; }
-  .mapwrap.two { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+
+  .top { height: auto; min-height: 52px; flex-wrap: wrap; gap: 0 8px; padding: 4px 10px; }
+  .brand { font-size: 16px; white-space: nowrap; }
+  .top nav { gap: 2px; }
+  .top nav a { padding: 7px 8px; font-size: 13px; white-space: nowrap; }
+  .status { order: 3; flex-basis: 100%; margin: 0; font-size: 11px; line-height: 1.5; }
+  .status.ok { display: none; }                                     /* the live time is not worth a line on a phone */
+
+  .toolbar { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 6px 8px; padding: 8px 10px; }
+  .toolbar > label:first-child { grid-column: 1 / -1; }
+  .toolbar label { min-width: 0; font-size: 11px; }
+  .toolbar > label:not(.check) { font-size: 0; }                     /* the selected value explains the field */
+  .toolbar > label:not(.check) select { font-size: 13px; }
+  #win, #shock, #field { width: 100%; min-width: 0; }
+  select { min-height: 34px; padding: 5px 8px; font-size: 13px; }
+  .seg { grid-column: 1 / -1; width: 100%; }
+  .seg button { min-height: 30px; padding: 0 4px; font-size: 12px; }
+  .dayrow { justify-content: space-between; }
+  .step { width: 34px; height: 34px; }
+  .daylabel { min-width: 0; font-size: 13px; }
+  .toolbar .check { min-height: 34px; font-size: 13px; }
+  input[type=range] { width: 100%; }
+
+  .mapwrap, .mapwrap.two { display: flex; flex-direction: column; flex: none; }
+  .map.leaflet-container { touch-action: pan-y; }                   /* a vertical swipe scrolls the page, not the map */
+  .pane { height: 44vh; min-height: 230px; }
+  .mapwrap.one .pane { height: 58vh; min-height: 300px; }
   .two #paneB { border-left: 0; border-top: 1px solid var(--line); }
-  .legend { width: calc(100% - 24px); } .dock { bottom: 12px; padding: 12px 14px; } .stats { gap: 6px 18px; }
-  .stat .v { font-size: 18px; } .dock .headline { font-size: 18px; } .dock .caption { font-size: 13px; } .tip { display: none; }
+  .maplabel { top: 7px; left: 7px; padding: 5px 10px; font-size: 12px; }
+  .legend { order: -1; position: static; left: auto; top: auto; width: auto; margin: 8px 10px 0; padding: 8px 10px; }
+  .pin { display: none; }
+
+  .dock { position: static; left: auto; bottom: auto; transform: none; width: auto; min-width: 0; margin: 10px;
+          padding: 12px 14px 14px; grid-template-columns: 1fr; gap: 12px; }
+  .dock .headline { font-size: 18px; } .dock .caption { font-size: 13px; }
+  .stats { gap: 8px 16px; } .stat .v { font-size: 18px; } .stat .n { max-width: none; }
+  .days, .daytext { min-width: 0; }
+  .days { border-left: 0; padding-left: 0; }
+  .timeline { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); max-width: 100%; gap: 4px 6px; }
+  .chip { padding: 4px 0 2px; }
+  .credit { position: static; padding: 4px 12px 16px; text-align: center; }
+  .tip { display: none; }
+}
+@media (max-width: 340px) {                                        /* iPhone SE: keep the header on one line */
+  .brand { font-size: 14px; }
+  .top nav a { padding: 6px 5px; font-size: 12px; }
 }
